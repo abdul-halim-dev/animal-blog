@@ -7,7 +7,7 @@ const Category = ()=>{
     const catId = useParams();
     const [filterPosts, setFilterPost] = useState([]);
     useEffect(()=>{
-        window.scrollTo(0,0)
+        window.scrollTo(0,0);
         const catPost = async ()=>{
             try {
                 const res = await axios.get('http://localhost:5173/src/server/posts.json');
@@ -17,7 +17,6 @@ const Category = ()=>{
             } catch (error) {
                 console.log(error);
             }
-       
         }
         catPost();
     },[catId]);

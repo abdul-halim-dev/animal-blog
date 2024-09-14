@@ -6,8 +6,22 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './layout/Layout'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import Login from './pages/login/Login'
+import Signup from './pages/signup/Signup'
+import Dashboard from './pages/dashboard/Dashboard'
+import AdminLayOut from './layout/AdminLayOut'
 
 
+import AdminCategory from './pages/adminPage/category/AdminCategory'
+import Profile from './pages/adminPage/profile/Profile'
+import Ads from './pages/adminPage/ads/Ads'
+import Setting from './pages/adminPage/setting/Setting'
+import Post from './pages/adminPage/posts/Post'
+import User from './pages/adminPage/user/User'
+import Tags from './pages/adminPage/tags/Tags'
+
+const adminPath = "path"
 const route  = createBrowserRouter([
   {
     path:"/",
@@ -28,24 +42,73 @@ const route  = createBrowserRouter([
         path:"*",
         element:<PageNotFound/>
       }
+      
     ]
+  },
+  {
+    path:'/login',
+    element:<Login/>
+  },
+  {
+    path:'/signup',
+    element:<Signup/>
+  },
+  {
+    path:`/admin-${adminPath}`,
+    element:<AdminLayOut/>,
+    children:[
+      {
+        path:`/admin-${adminPath}`,
+        element:<Dashboard/>
+      },
+      {
+        path:`/admin-${adminPath}/category`,
+        element:<AdminCategory/>
+      },
+      {
+        path:`/admin-${adminPath}/posts`,
+        element:<Post/>
+      },
+      {
+        path:`/admin-${adminPath}/users`,
+        element:<User/>
+      },
+      {
+        path:`/admin-${adminPath}/ads`,
+        element:<Ads/>
+      },
+      {
+        path:`/admin-${adminPath}/Tags`,
+        element:<Tags/>
+      },
+      {
+        path:`/admin-${adminPath}/profile`,
+        element:<Profile/>
+      },
+      {
+        path:`/admin-${adminPath}/setting`,
+        element:<Setting/>
+      }
+    ]
+  }
+  ,{
+    path:"*",
+    element:<div>404</div>
   }
 ])
 
 function App() {
   const [posts, setPost] = useState([]);
   useEffect(()=>{
-     const postinfo =  postData();
-    //  console.log(postinfo)
+    //  postData();
+    //  console.log(posts)
   },[]);
 
   // console.log(posts);
   const postData =async()=>{
     try {
-        const fecthData = await fetch("http://localhost:5173/src/server/posts.json").then((data)=> data.json()).then((item)=>{
-            setPost(item);
-        });
-        return fecthData;
+        const fecthData = await axios("http://localhost:5000/api/v1/posts");
+        setPost(fecthData.data)
     } catch (error) {
       console.log(error)
     }
