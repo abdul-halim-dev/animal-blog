@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const navigetor = useNavigate();
+
   const [signSuccess, setSignSuccess] = useState(false);
+
   useEffect(()=>{
     const user = localStorage.getItem("IsUserLogin");
     if(user==="true"){
       navigetor('/admin/dashboard');
     }
+
   },[signSuccess]);
+  
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -21,8 +25,8 @@ const Signup = () => {
 
 
 
-const {password,conPassword, ...inputValue} = input;
-console.log(inputValue);
+  const {password,conPassword, ...inputValue} = input;
+  console.log(inputValue);
 
 
 
@@ -33,6 +37,7 @@ console.log(inputValue);
     email: false,
     password: false,
   });
+
 
   const inputValided = (e) => {
     if (e.target.name == "name") {
@@ -82,21 +87,26 @@ console.log(inputValue);
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     inputValided(e);
   };
+
   const handelShowPassowrd = () => {
     setShow((prev) => !prev);
   };
+
   const handelShowConPassowrd = () => {
     setConShow((prev) => !prev);
   };
-const handelOnSignUp=()=>{
+
+  const handelOnSignUp=()=>{
   if(inputError.name || inputError.email || inputError.password ){
     console.log("user can't Sign Up");
     console.log(inputError);
+
   }else{
     localStorage.setItem("user",JSON.stringify(input));
     localStorage.setItem('IsUserLogin',true);
     setSignSuccess(prev=>!prev)
   }
+
 }
   return (
     <div className="signUp_form">
@@ -111,11 +121,12 @@ const handelOnSignUp=()=>{
             placeholder="name"
             onChange={handleOnChange}
           />
-          {inputError.name ? (
+          { inputError.name ? (
             <span className="error">Name Must Be 5 Character</span>
           ) : (
             ""
           )}
+          
         </div>
         <div className="input_group">
           <label htmlFor="email">email</label>
